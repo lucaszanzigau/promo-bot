@@ -37,4 +37,4 @@ def verificar_amazon():
 
 while True:
     verificar_amazon()
-    time.sleep(3600)
+    time.sleep(180)
