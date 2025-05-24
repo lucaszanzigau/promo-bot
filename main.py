@@ -19,16 +19,18 @@ def verificar_amazon():
         resultados = soup.select(".s-result-item")
 
         for item in resultados:
-            titulo = item.select_one("h2 span")
-            preco = item.select_one(".a-price .a-offscreen")
+            titulo_tag = item.select_one("h2 a.a-link-normal")
+            preco_tag = item.select_one(".a-price .a-offscreen")
 
-            if titulo and preco:
-                nome = titulo.text.strip()
-                valor = preco.text.strip().replace("R$", "").replace(".", "").replace(",", ".")
-                valor_float = float(valor)
+            if titulo_tag and preco_tag:
+                nome = titulo_tag.text.strip()
+                link = "https://www.amazon.com.br" + titulo_tag['href']
+                preco_text = preco_tag.text.strip().replace("R$", "").replace(".", "").replace(",", ".")
+                preco = float(preco_text)
 
-                if valor_float < 1000:  # valor de corte para promoção
-                    print(f"🔥 PROMO: {nome} - R${valor_float:.2f}")
+                if preco < 1000:
+                    print(f"🔥 PROMO: {nome} - R${preco:.2f}")
+                    print(f"🔗 Link: {link}\n")
 
     except Exception as e:
         print("Erro ao verificar Amazon:", e)
